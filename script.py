@@ -27,11 +27,11 @@ for persona in range(numero_personas):
 mydb = mysql.connector.connect(
   host="localhost",
   user="root",
-  password="root"
+  password="root",
+  port="23306",
+  database="punto2"
 )
 mycursor = mydb.cursor()
-mycursor.execute("CREATE DATABASE Prueba")
-mycursor.execute("USE Prueba")
 mycursor.execute("CREATE TABLE datos_xlxs (Cedula VARCHAR(255), Nombres VARCHAR(255), Direccion VARCHAR(255), latitude VARCHAR(255), longitude VARCHAR(255), city VARCHAR(255), description VARCHAR(255))")
 sql = "INSERT INTO datos_xlxs (Cedula, Nombres, Direccion, latitude, longitude, city, description) VALUES (%s,%s,%s,%s,%s,%s,%s)"
 
@@ -42,7 +42,8 @@ for persona in tData:
     mydb.commit()
     print(mycursor.rowcount, "record inserted.")
 
-
+mycursor.close()
+mydb.close()
 
 
 

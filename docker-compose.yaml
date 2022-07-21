@@ -1,0 +1,29 @@
+version: "2.6.1"
+services:
+  mysql:
+    build: 
+      context: .
+      dockerfile: Dockerfile
+    container_name: mysql
+    restart: always
+    ports:
+      - 23306:3306
+    environment:
+      MYSQL_ROOT_PASSWORD: "root"
+      MYSQL_DATABASE: "punto2"
+      MYSQL_USER: "jonathan"
+      MYSQL_PASSWORD: "jonathan"
+    volumes:
+      - ./schemas:/var/lib/mysql:rw
+    networks:
+      mysql_network:
+        aliases:
+          - mysql_host
+volumes:
+  schemas: {}
+networks:
+  mysql_network:
+    name: mysql_net
+    driver: bridge
+      
+
