@@ -9,21 +9,24 @@ services:
     ports:
       - 23306:3306
     environment:
-      MYSQL_ROOT_PASSWORD: "root"
-      MYSQL_DATABASE: "punto2"
-      MYSQL_USER: "jonathan"
-      MYSQL_PASSWORD: "jonathan"
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: punto2
+      MYSQL_USER: user
+      MYSQL_PASSWORD: user
     volumes:
-      - ./schemas:/var/lib/mysql:rw
-    networks:
-      mysql_network:
-        aliases:
-          - mysql_host
+      - ./db:/var/lib/mysql
+      - ./init:/docker-entrypoint-initdb.d
+
+  adminer:
+    image: adminer
+    restart : always
+    ports :
+     - 8080:8080
+     
 volumes:
-  schemas: {}
-networks:
-  mysql_network:
-    name: mysql_net
-    driver: bridge
+  db:
+
+
+
       
 

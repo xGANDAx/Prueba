@@ -24,26 +24,28 @@ for persona in range(numero_personas):
     del tData["persona"+str(persona)]['Data']
     tData["persona"+str(persona)].update(data)
  
-mydb = mysql.connector.connect(
-  host="localhost",
-  user="root",
-  password="root",
-  port="23306",
-  database="punto2"
-)
-mycursor = mydb.cursor()
-mycursor.execute("CREATE TABLE datos_xlxs (Cedula VARCHAR(255), Nombres VARCHAR(255), Direccion VARCHAR(255), latitude VARCHAR(255), longitude VARCHAR(255), city VARCHAR(255), description VARCHAR(255))")
-sql = "INSERT INTO datos_xlxs (Cedula, Nombres, Direccion, latitude, longitude, city, description) VALUES (%s,%s,%s,%s,%s,%s,%s)"
+try: 
+    mydb = mysql.connector.connect(
+        host="localhost",
+        user="root",
+        password="root",
+        port="23306",
+        database="punto2"
+        )
+    mycursor = mydb.cursor()
 
-for persona in tData:
-    val = tuple(tData[persona].values())
-    #print(val)
-    mycursor.execute(sql, val)
-    mydb.commit()
-    print(mycursor.rowcount, "record inserted.")
+    sql = "INSERT INTO datos_xlxs (Cedula, Nombres, Direccion, latitude, longitude, city, description) VALUES (%s,%s,%s,%s,%s,%s,%s)"
 
-mycursor.close()
-mydb.close()
+    for persona in tData:
+        val = tuple(tData[persona].values())
+        #print(val)
+        mycursor.execute(sql, val)
+        mydb.commit()
+        print(mycursor.rowcount, "Datos insertados.")
 
+    mycursor.close()
+    mydb.close()
 
-
+except mysql.connector.errors.InterfaceError:
+    print('No se pudo conectar con la base de datos')
+    
